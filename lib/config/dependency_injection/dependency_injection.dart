@@ -6,6 +6,7 @@ import 'package:spotify_app/domain/repositories/storage_repository.dart';
 import 'package:spotify_app/domain/use_cases/get_search_items_use_case.dart';
 import 'package:spotify_app/domain/use_cases/get_token_use_case.dart';
 import 'package:spotify_app/domain/use_cases/get_token_user_use_case.dart';
+import 'package:spotify_app/domain/use_cases/get_track_by_id_use_case.dart';
 import 'package:spotify_app/domain/use_cases/get_url_authentication_use_case.dart';
 import 'package:spotify_app/domain/use_cases/get_user_use_case.dart';
 import 'package:spotify_app/infrastructure/datasource/remote_spotify_data_source.dart';
@@ -67,6 +68,13 @@ configureUseCases() {
 
   getIt.registerSingleton<GetSearchItemsUseCase>(
     GetSearchItemsUseCase(
+      getIt<SpotifyRepository>(),
+      getIt<GetTokenUserUseCase>(),
+    ),
+  );
+
+  getIt.registerSingleton<GetTrackByIdUseCase>(
+    GetTrackByIdUseCase(
       getIt<SpotifyRepository>(),
       getIt<GetTokenUserUseCase>(),
     ),

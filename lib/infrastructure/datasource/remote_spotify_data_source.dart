@@ -1,12 +1,15 @@
 import 'dart:convert';
 import 'package:spotify_app/domain/entities/search_item.dart';
+import 'package:spotify_app/domain/entities/track.dart';
 import 'package:spotify_app/domain/entities/user.dart';
 import 'package:spotify_app/infrastructure/datasource/spotify_data_source.dart';
 import 'package:dio/dio.dart';
 import 'package:spotify_app/infrastructure/mappers/search_reponse_mapper.dart';
+import 'package:spotify_app/infrastructure/mappers/track_mapper.dart';
 import 'package:spotify_app/infrastructure/mappers/user_mapper.dart';
 import 'package:spotify_app/infrastructure/models/search_reponse.dart';
 import 'package:spotify_app/infrastructure/models/token_response.dart';
+import 'package:spotify_app/infrastructure/models/track_response.dart';
 import 'package:spotify_app/infrastructure/models/user_response.dart';
 
 class RemoteSpotifyDataSource implements SpotifyDataSource {
@@ -97,4 +100,32 @@ class RemoteSpotifyDataSource implements SpotifyDataSource {
       throw Exception('Failed to load search results');
     }
   }
+
+  @override
+  Future<Track?> getTrackById(String tokenAccess, String id) async {
+    final response = await dio.get(
+      'https://api.spotify.com/v1/tracks/$id',
+      options: Options(
+        headers: {'Authorization': 'Bearer $tokenAccess'},
+      ),
+    );
+    if (response.statusCode == 200) {
+      final trackResponse = TrackResponse.fromJson(response.data);
+      return TrackMapper.trackResponseToEntity(trackResponse);
+    } else {
+      throw Exception('Failed to load track');
+    }
+  }
+
+  // @override
+  // Future<Track?> getAlbumById(String tokenAccess, String id) {
+  //   // TODO: implement getAlbumById
+  //   throw UnimplementedError();
+  // }
+
+  // @override
+  // Future<Track?> getArtistById(String tokenAccess, String id) {
+  //   // TODO: implement getArtistById
+  //   throw UnimplementedError();
+  // }
 }

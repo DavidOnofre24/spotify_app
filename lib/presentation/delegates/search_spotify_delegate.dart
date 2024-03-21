@@ -5,7 +5,7 @@ import 'package:spotify_app/config/dependency_injection/dependency_injection.dar
 import 'package:spotify_app/domain/entities/search_item.dart';
 import 'package:spotify_app/domain/use_cases/get_search_items_use_case.dart';
 
-class SearchSpotifyDelegate extends SearchDelegate<String> {
+class SearchSpotifyDelegate extends SearchDelegate<String?> {
   StreamController<List<SearchResultItem?>> debounceItems =
       StreamController.broadcast();
   StreamController<bool> isLoadingStream = StreamController.broadcast();
@@ -31,6 +31,10 @@ class SearchSpotifyDelegate extends SearchDelegate<String> {
         return ListView.builder(
             itemCount: items.length,
             itemBuilder: (context, index) => ListTile(
+                  onTap: () {
+                    clearStreams();
+                    close(context, '${items[index]!.id}-${items[index]!.type}');
+                  },
                   title: Text(items[index]!.name),
                   subtitle: Text(items[index]!.type),
                 ));
@@ -57,7 +61,7 @@ class SearchSpotifyDelegate extends SearchDelegate<String> {
   Widget buildLeading(BuildContext context) {
     return IconButton(
       onPressed: () {
-        close(context, '');
+        close(context, null);
       },
       icon: const Icon(Icons.arrow_back),
     );
