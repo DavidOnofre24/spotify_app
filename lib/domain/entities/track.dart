@@ -4,6 +4,7 @@ class Track {
   final String? artist;
   final String? album;
   final String? imageUrl;
+  final String? previewUrl;
 
   Track({
     this.id,
@@ -11,5 +12,6 @@ class Track {
     this.artist,
     this.album,
     this.imageUrl,
+    required this.previewUrl,
   });
 }

@@ -63,4 +63,17 @@ class RemoteFavoritesDataSource implements FavoritesDataSource {
       return false;
     }
   }
+
+  @override
+  Future<bool> isFavorite(String token, String id) async {
+    final response = await dio.get(
+        'https://api.spotify.com/v1/me/tracks/contains?ids=$id',
+        options: Options(headers: {'Authorization': 'Bearer $token'}));
+
+    if (response.statusCode == 200) {
+      return response.data[0];
+    } else {
+      throw Exception();
+    }
+  }
 }

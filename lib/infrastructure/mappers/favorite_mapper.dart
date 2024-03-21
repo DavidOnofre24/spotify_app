@@ -14,6 +14,7 @@ class FavoriteMapper {
                 id: e.track!.id,
                 name: e.track!.name,
                 album: e.track!.album!.name,
+                previewUrl: e.track!.previewUrl,
                 artist: e.track!.artists!.map((e) => e.name).join(', '),
                 imageUrl: e.track!.album!.images!.isNotEmpty
                     ? e.track!.album!.images!.first.url

@@ -54,6 +54,8 @@ final appRouter = GoRouter(
               create: (context) => TrackDetailCubit(
                 getTrackByIdUseCase: getIt.get(),
                 addFavoriteUseCase: getIt.get(),
+                getIsFavoriteUseCase: getIt.get(),
+                removeFavoriteUseCase: getIt.get(),
               )..getTrackById(state.params['id']!),
               child: const TrackDetailScreen(),
             ),

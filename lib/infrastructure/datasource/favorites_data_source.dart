@@ -6,4 +6,6 @@ abstract class FavoritesDataSource {
   Future<bool> removeFavorite(String token, String id);
 
   Future<List<FavoriteTrack>> getFavorites(String token);
+
+  Future<bool> isFavorite(String token, String id);
 }

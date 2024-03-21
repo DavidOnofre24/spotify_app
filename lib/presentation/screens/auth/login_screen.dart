@@ -13,8 +13,8 @@ class LoginScreen extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: TextButton(
-            onPressed: () async {
-              var url = await getIt<GetUrlAuthenticationUseCase>().execute();
+            onPressed: () {
+              var url = getIt<GetUrlAuthenticationUseCase>().execute();
               navigateToSpotifyWebView(context, url);
             },
             child: const Text('Login with Spotify')),

@@ -10,6 +10,7 @@ class TrackMapper {
         artist: trackResponse.artists?[0].name,
         album: trackResponse.album?.name,
         imageUrl: trackResponse.album?.images?[0].url,
+        previewUrl: trackResponse.previewUrl,
       );
     }
   }

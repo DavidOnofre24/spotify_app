@@ -11,8 +11,12 @@ class TrackDetailInitial extends TrackDetailState {}
 
 class TrackDetailSuccess extends TrackDetailState {
   final Track track;
+  final bool isFavorite;
 
-  const TrackDetailSuccess(this.track);
+  const TrackDetailSuccess(this.track, this.isFavorite);
+
+  @override
+  List<Object> get props => [track, isFavorite];
 }
 
 class TrackDetailFailure extends TrackDetailState {

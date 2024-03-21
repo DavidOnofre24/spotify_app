@@ -5,7 +5,7 @@ class GetUrlAuthenticationUseCase {
 
   GetUrlAuthenticationUseCase(this._spotifyRepository);
 
-  Future<String> execute() async {
-    return await _spotifyRepository.getAuthorizationUrl();
+  String execute() {
+    return _spotifyRepository.getAuthorizationUrl();
   }
 }

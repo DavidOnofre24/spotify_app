@@ -6,4 +6,6 @@ abstract class FavoriteRepository {
   Future<bool> addFavorite(String token, String id);
 
   Future<bool> removeFavorite(String token, String id);
+
+  Future<bool> isFavorite(String token, String id);
 }

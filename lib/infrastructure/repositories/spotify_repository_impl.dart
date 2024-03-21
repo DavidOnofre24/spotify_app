@@ -22,7 +22,7 @@ class SpotifyRepositoryImpl implements SpotifyRepository {
   }
 
   @override
-  Future<String> getAuthorizationUrl() {
+  String getAuthorizationUrl() {
     return spotifyDataSource.getAuthorizationUrl();
   }
 

@@ -21,4 +21,9 @@ class FavoritesRepositoryImpl implements FavoriteRepository {
   Future<List<FavoriteTrack>> getFavorites(String token) async {
     return await favoritesDataSource.getFavorites(token);
   }
+
+  @override
+  Future<bool> isFavorite(String token, String id) async {
+    return await favoritesDataSource.isFavorite(token, id);
+  }
 }

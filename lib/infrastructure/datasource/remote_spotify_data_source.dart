@@ -52,7 +52,7 @@ class RemoteSpotifyDataSource implements SpotifyDataSource {
   }
 
   @override
-  Future<String> getAuthorizationUrl() async {
+  String getAuthorizationUrl() {
     const scope =
         'user-read-private user-read-email user-library-read user-top-read user-read-recently-played user-read-playback-state user-modify-playback-state user-read-currently-playing user-library-modify';
 
