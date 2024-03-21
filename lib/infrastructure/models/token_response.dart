@@ -1,9 +1,9 @@
 class TokenResponse {
   final String accessToken;
   final String tokenType;
-  final String scope;
+  final String? scope;
   final int expiresIn;
-  final String refreshToken;
+  final String? refreshToken;
 
   TokenResponse({
     required this.accessToken,
