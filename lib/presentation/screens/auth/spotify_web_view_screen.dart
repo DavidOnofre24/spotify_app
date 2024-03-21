@@ -28,7 +28,7 @@ class _SpotifyWebViewScreenState extends State<SpotifyWebViewScreen> {
               final uri = Uri.parse(navigation.url);
               final code = uri.queryParameters['code'];
               getIt<GetTokenUseCase>().execute(code!);
-              context.go('/home');
+              context.go('/home/0');
             }
 
             return NavigationDecision.prevent;

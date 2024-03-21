@@ -26,7 +26,9 @@ class SearchReponseMapper {
         id: element.id ?? '',
         name: element.name ?? '',
         type: 'artist',
-        imageUrl: (element.images == null) ? '' : element.images?[0].url ?? '',
+        imageUrl: (element.images == null || element.images!.isEmpty)
+            ? ''
+            : element.images?[0].url ?? '',
       ));
     });
 
