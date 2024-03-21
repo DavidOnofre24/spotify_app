@@ -1,8 +1,11 @@
 import 'dart:convert';
+import 'package:spotify_app/domain/entities/search_item.dart';
 import 'package:spotify_app/domain/entities/user.dart';
 import 'package:spotify_app/infrastructure/datasource/spotify_data_source.dart';
 import 'package:dio/dio.dart';
+import 'package:spotify_app/infrastructure/mappers/search_reponse_mapper.dart';
 import 'package:spotify_app/infrastructure/mappers/user_mapper.dart';
+import 'package:spotify_app/infrastructure/models/search_reponse.dart';
 import 'package:spotify_app/infrastructure/models/token_response.dart';
 import 'package:spotify_app/infrastructure/models/user_response.dart';
 
@@ -68,6 +71,30 @@ class RemoteSpotifyDataSource implements SpotifyDataSource {
       return user;
     } else {
       throw Exception('Failed to load user');
+    }
+  }
+
+  @override
+  Future<List<SearchResultItem>> search(
+      String tokenAccess, String query) async {
+    if (query.isEmpty) {
+      return [];
+    }
+    final response = await dio.get(
+      'https://api.spotify.com/v1/search?q=$query&type=album,artist,track',
+      options: Options(
+        headers: {
+          'Authorization': 'Bearer $tokenAccess',
+        },
+      ),
+    );
+
+    if (response.statusCode == 200) {
+      final data = SearchResponse.fromJson(response.data);
+      final listSearch = SearchReponseMapper.combineItemstoEntity(data);
+      return listSearch;
+    } else {
+      throw Exception('Failed to load search results');
     }
   }
 }

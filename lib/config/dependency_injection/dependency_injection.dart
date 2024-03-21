@@ -3,6 +3,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_it/get_it.dart';
 import 'package:spotify_app/domain/repositories/spotify_repository.dart';
 import 'package:spotify_app/domain/repositories/storage_repository.dart';
+import 'package:spotify_app/domain/use_cases/get_search_items_use_case.dart';
 import 'package:spotify_app/domain/use_cases/get_token_use_case.dart';
 import 'package:spotify_app/domain/use_cases/get_token_user_use_case.dart';
 import 'package:spotify_app/domain/use_cases/get_url_authentication_use_case.dart';
@@ -62,6 +63,13 @@ configureUseCases() {
 
   getIt.registerSingleton<GetTokenUserUseCase>(
     GetTokenUserUseCase(getIt<StorageRepository>()),
+  );
+
+  getIt.registerSingleton<GetSearchItemsUseCase>(
+    GetSearchItemsUseCase(
+      getIt<SpotifyRepository>(),
+      getIt<GetTokenUserUseCase>(),
+    ),
   );
 }
 
