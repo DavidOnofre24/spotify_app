@@ -11,8 +11,22 @@ class RemoteFavoritesDataSource implements FavoritesDataSource {
     required this.dio,
   });
   @override
-  Future<void> addFavorite(String id) {
-    throw UnimplementedError();
+  Future<bool> addFavorite(String token, String id) async {
+    final response = await dio.put(
+      'https://api.spotify.com/v1/me/tracks?ids=$id',
+      data: {
+        'ids': [id]
+      },
+      options: Options(
+        headers: {'Authorization': 'Bearer $token'},
+      ),
+    );
+
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   @override
@@ -35,8 +49,18 @@ class RemoteFavoritesDataSource implements FavoritesDataSource {
   }
 
   @override
-  Future<void> removeFavorite(String id) {
-    // TODO: implement removeFavorite
-    throw UnimplementedError();
+  Future<bool> removeFavorite(String token, String id) async {
+    final response =
+        await dio.delete('https://api.spotify.com/v1/me/tracks?ids=$id',
+            data: {
+              'ids': [id]
+            },
+            options: Options(headers: {'Authorization': 'Bearer $token'}));
+
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

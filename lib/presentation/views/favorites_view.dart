@@ -11,11 +11,6 @@ class FavoritesView extends StatefulWidget {
 
 class _FavoritesViewState extends State<FavoritesView> {
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return BlocBuilder<FavoriteCubit, FavoriteState>(
       builder: (context, state) {
@@ -34,7 +29,9 @@ class _FavoritesViewState extends State<FavoritesView> {
                 trailing: IconButton(
                   icon: const Icon(Icons.delete),
                   onPressed: () {
-                    // context.read<FavoriteCubit>().removeFavorite(favoriteTrack);
+                    context
+                        .read<FavoriteCubit>()
+                        .removeFavorite(favoriteTrack.track.id!);
                   },
                 ),
               );

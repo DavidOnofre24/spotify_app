@@ -25,7 +25,18 @@ class TrackDetailScreen extends StatelessWidget {
                 title: Text(state.track.name!),
               ),
               body: Center(
-                child: Text(state.track.name!),
+                child: Column(
+                  children: [
+                    Text(state.track.name!),
+                    TextButton(
+                        onPressed: () {
+                          context
+                              .read<TrackDetailCubit>()
+                              .addFavorite(state.track.id!);
+                        },
+                        child: const Text('Add to favorite'))
+                  ],
+                ),
               ),
             );
           }

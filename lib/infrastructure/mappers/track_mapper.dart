@@ -5,6 +5,7 @@ class TrackMapper {
   static Track trackResponseToEntity(TrackResponse trackResponse) {
     {
       return Track(
+        id: trackResponse.id,
         name: trackResponse.name,
         artist: trackResponse.artists?[0].name,
         album: trackResponse.album?.name,

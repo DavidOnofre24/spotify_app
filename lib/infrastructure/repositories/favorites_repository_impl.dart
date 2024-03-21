@@ -8,13 +8,13 @@ class FavoritesRepositoryImpl implements FavoriteRepository {
   FavoritesRepositoryImpl({required this.favoritesDataSource});
 
   @override
-  Future<void> addFavorite(String id) async {
-    await favoritesDataSource.addFavorite(id);
+  Future<bool> addFavorite(String token, String id) async {
+    return await favoritesDataSource.addFavorite(token, id);
   }
 
   @override
-  Future<void> removeFavorite(String id) async {
-    await favoritesDataSource.removeFavorite(id);
+  Future<bool> removeFavorite(String token, String id) async {
+    return await favoritesDataSource.removeFavorite(token, id);
   }
 
   @override

@@ -22,8 +22,6 @@ class FavoritesResponse {
   factory FavoritesResponse.fromRawJson(String str) =>
       FavoritesResponse.fromJson(json.decode(str));
 
-  String toRawJson() => json.encode(toJson());
-
   factory FavoritesResponse.fromJson(Map<String, dynamic> json) =>
       FavoritesResponse(
         href: json["href"],
@@ -36,18 +34,6 @@ class FavoritesResponse {
         previous: json["previous"],
         total: json["total"],
       );
-
-  Map<String, dynamic> toJson() => {
-        "href": href,
-        "items": items == null
-            ? []
-            : List<dynamic>.from(items!.map((x) => x.toJson())),
-        "limit": limit,
-        "next": next,
-        "offset": offset,
-        "previous": previous,
-        "total": total,
-      };
 }
 
 class Item {
@@ -61,18 +47,11 @@ class Item {
 
   factory Item.fromRawJson(String str) => Item.fromJson(json.decode(str));
 
-  String toRawJson() => json.encode(toJson());
-
   factory Item.fromJson(Map<String, dynamic> json) => Item(
         addedAt:
             json["added_at"] == null ? null : DateTime.parse(json["added_at"]),
         track: json["track"] == null ? null : TrackR.fromJson(json["track"]),
       );
-
-  Map<String, dynamic> toJson() => {
-        "added_at": addedAt?.toIso8601String(),
-        "track": track?.toJson(),
-      };
 }
 
 class TrackR {
@@ -143,7 +122,7 @@ class TrackR {
         popularity: json["popularity"],
         previewUrl: json["preview_url"],
         trackNumber: json["track_number"],
-        type: trackTypeValues.map[json["type"]]!,
+        type: trackTypeValues.map[json["type"]],
         uri: json["uri"],
       );
 
@@ -181,7 +160,7 @@ class Album {
   final String? id;
   final List<Image>? images;
   final String? name;
-  final DateTime? releaseDate;
+  final String? releaseDate;
   final ReleaseDatePrecision? releaseDatePrecision;
   final int? totalTracks;
   final AlbumTypeEnum? type;
@@ -208,7 +187,7 @@ class Album {
   String toRawJson() => json.encode(toJson());
 
   factory Album.fromJson(Map<String, dynamic> json) => Album(
-        albumType: albumTypeEnumValues.map[json["album_type"]]!,
+        albumType: albumTypeEnumValues.map[json["album_type"]],
         artists: json["artists"] == null
             ? []
             : List<Artist>.from(
@@ -225,13 +204,11 @@ class Album {
             ? []
             : List<Image>.from(json["images"]!.map((x) => Image.fromJson(x))),
         name: json["name"],
-        releaseDate: json["release_date"] == null
-            ? null
-            : DateTime.parse(json["release_date"]),
+        releaseDate: json["release_date"],
         releaseDatePrecision:
-            releaseDatePrecisionValues.map[json["release_date_precision"]]!,
+            releaseDatePrecisionValues.map[json["release_date_precision"]],
         totalTracks: json["total_tracks"],
-        type: albumTypeEnumValues.map[json["type"]]!,
+        type: albumTypeEnumValues.map[json["type"]],
         uri: json["uri"],
       );
 
@@ -250,8 +227,7 @@ class Album {
             ? []
             : List<dynamic>.from(images!.map((x) => x.toJson())),
         "name": name,
-        "release_date":
-            "${releaseDate!.year.toString().padLeft(4, '0')}-${releaseDate!.month.toString().padLeft(2, '0')}-${releaseDate!.day.toString().padLeft(2, '0')}",
+        "release_date": "",
         "release_date_precision":
             releaseDatePrecisionValues.reverse[releaseDatePrecision],
         "total_tracks": totalTracks,
@@ -260,12 +236,12 @@ class Album {
       };
 }
 
-enum AlbumTypeEnum { ALBUM, COMPILATION, SINGLE }
+enum AlbumTypeEnum { album, compilation, single }
 
 final albumTypeEnumValues = EnumValues({
-  "album": AlbumTypeEnum.ALBUM,
-  "compilation": AlbumTypeEnum.COMPILATION,
-  "single": AlbumTypeEnum.SINGLE
+  "album": AlbumTypeEnum.album,
+  "compilation": AlbumTypeEnum.compilation,
+  "single": AlbumTypeEnum.single
 });
 
 class Artist {
@@ -331,9 +307,9 @@ class ExternalUrls {
       };
 }
 
-enum ArtistType { ARTIST }
+enum ArtistType { artist }
 
-final artistTypeValues = EnumValues({"artist": ArtistType.ARTIST});
+final artistTypeValues = EnumValues({"artist": ArtistType.artist});
 
 class Image {
   final int? height;
@@ -363,10 +339,10 @@ class Image {
       };
 }
 
-enum ReleaseDatePrecision { DAY }
+enum ReleaseDatePrecision { day }
 
 final releaseDatePrecisionValues =
-    EnumValues({"day": ReleaseDatePrecision.DAY});
+    EnumValues({"day": ReleaseDatePrecision.day});
 
 class ExternalIds {
   final String? isrc;
@@ -389,9 +365,9 @@ class ExternalIds {
       };
 }
 
-enum TrackType { TRACK }
+enum TrackType { track }
 
-final trackTypeValues = EnumValues({"track": TrackType.TRACK});
+final trackTypeValues = EnumValues({"track": TrackType.track});
 
 class EnumValues<T> {
   Map<String, T> map;

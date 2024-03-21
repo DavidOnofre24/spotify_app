@@ -31,8 +31,10 @@ final appRouter = GoRouter(
         builder: (context, state) => MultiBlocProvider(
               providers: [
                 BlocProvider<FavoriteCubit>(
-                  create: (context) =>
-                      FavoriteCubit(getFavoritesTracksUseCase: getIt.get()),
+                  create: (context) => FavoriteCubit(
+                    getFavoritesTracksUseCase: getIt.get(),
+                    removeFavoriteUseCase: getIt.get(),
+                  ),
                 )
               ],
               child: HomeScreen(
@@ -49,9 +51,10 @@ final appRouter = GoRouter(
             path: 'track-detail/:id',
             name: TrackDetailScreen.name,
             builder: (context, state) => BlocProvider<TrackDetailCubit>(
-              create: (context) =>
-                  TrackDetailCubit(getTrackByIdUseCase: getIt.get())
-                    ..getTrackById(state.params['id']!),
+              create: (context) => TrackDetailCubit(
+                getTrackByIdUseCase: getIt.get(),
+                addFavoriteUseCase: getIt.get(),
+              )..getTrackById(state.params['id']!),
               child: const TrackDetailScreen(),
             ),
           ),

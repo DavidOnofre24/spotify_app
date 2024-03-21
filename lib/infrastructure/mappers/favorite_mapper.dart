@@ -11,6 +11,7 @@ class FavoriteMapper {
     return response.items!
         .map((e) => FavoriteTrack(
               track: Track(
+                id: e.track!.id,
                 name: e.track!.name,
                 album: e.track!.album!.name,
                 artist: e.track!.artists!.map((e) => e.name).join(', '),
@@ -18,7 +19,7 @@ class FavoriteMapper {
                     ? e.track!.album!.images!.first.url
                     : null,
               ),
-              addedAt: e.addedAt ?? DateTime.now(),
+              addedAt: e.addedAt,
             ))
         .toList();
   }

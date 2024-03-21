@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:spotify_app/presentation/providers/favorite/cubit/favorite_cubit.dart';
 
 class CustomBottomNavigation extends StatelessWidget {
   final int currentIndex;
@@ -13,6 +15,7 @@ class CustomBottomNavigation extends StatelessWidget {
         break;
 
       case 1:
+        context.read<FavoriteCubit>().getFavorites();
         context.go('/home/1');
         break;
     }
