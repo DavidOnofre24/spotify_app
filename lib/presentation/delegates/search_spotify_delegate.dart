@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:spotify_app/config/dependency_injection/dependency_injection.dart';
 import 'package:spotify_app/domain/entities/search_item.dart';
@@ -31,6 +32,24 @@ class SearchSpotifyDelegate extends SearchDelegate<String?> {
         return ListView.builder(
             itemCount: items.length,
             itemBuilder: (context, index) => ListTile(
+                  leading: (items[index]?.imageUrl != null)
+                      ? SizedBox(
+                          width: 50,
+                          height: 50,
+                          child: CachedNetworkImage(
+                            imageUrl: items[index]!.imageUrl!,
+                            fit: BoxFit.cover,
+                            placeholder: (context, url) => const SizedBox(
+                                height: 5,
+                                width: 5,
+                                child: CircularProgressIndicator()),
+                            errorWidget: (context, url, error) => const Icon(
+                              Icons.error,
+                              color: Colors.red,
+                            ),
+                          ),
+                        )
+                      : const Icon(Icons.image),
                   onTap: () {
                     clearStreams();
                     close(context, '${items[index]!.id}-${items[index]!.type}');

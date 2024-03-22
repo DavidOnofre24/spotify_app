@@ -15,31 +15,46 @@ class SpotifyWebViewScreen extends StatefulWidget {
 }
 
 class _SpotifyWebViewScreenState extends State<SpotifyWebViewScreen> {
+  bool _isLoading = true;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Autorización de Spotify'),
-      ),
-      body: WebView(
-        navigationDelegate: (navigation) async {
-          if (navigation.url.startsWith('pruebacastor://callback')) {
-            if (navigation.url.contains('code=')) {
-              final uri = Uri.parse(navigation.url);
-              final code = uri.queryParameters['code'];
-              await getIt<GetTokenUseCase>().execute(code!);
-              Future.delayed(const Duration(seconds: 2), () {
-                context.go('/home/0');
+    return Stack(
+      children: [
+        Scaffold(
+          appBar: AppBar(
+            title: const Text('Autorización de Spotify'),
+          ),
+          body: WebView(
+            onPageFinished: (url) {
+              setState(() {
+                _isLoading = false;
               });
-            }
+            },
+            backgroundColor: Colors.transparent,
+            navigationDelegate: (navigation) async {
+              if (navigation.url.startsWith('pruebacastor://callback')) {
+                if (navigation.url.contains('code=')) {
+                  final uri = Uri.parse(navigation.url);
+                  final code = uri.queryParameters['code'];
+                  await getIt<GetTokenUseCase>().execute(code!);
+                  Future.delayed(const Duration(seconds: 2), () {
+                    context.go('/home/0');
+                  });
+                }
 
-            return NavigationDecision.prevent;
-          }
-          return NavigationDecision.navigate;
-        },
-        initialUrl: widget.authorizationUrl,
-        javascriptMode: JavascriptMode.unrestricted,
-      ),
+                return NavigationDecision.prevent;
+              }
+              return NavigationDecision.navigate;
+            },
+            initialUrl: widget.authorizationUrl,
+            javascriptMode: JavascriptMode.unrestricted,
+          ),
+        ),
+        if (_isLoading)
+          const Center(
+            child: CircularProgressIndicator(),
+          ),
+      ],
     );
   }
 }

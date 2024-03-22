@@ -7,7 +7,6 @@ class CustomAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = Theme.of(context).colorScheme;
     final titleStyle = Theme.of(context).textTheme.titleMedium;
     return SafeArea(
         bottom: false,
@@ -17,8 +16,8 @@ class CustomAppBar extends StatelessWidget {
             width: double.infinity,
             child: Row(
               children: [
-                Icon(Icons.movie_outlined, color: colors.primary),
-                const SizedBox(width: 5),
+                Image.asset('assets/images/logo.webp', width: 30),
+                const SizedBox(width: 10),
                 Text('Spotify Castor', style: titleStyle),
                 const Spacer(),
                 IconButton(

@@ -12,12 +12,30 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: TextButton(
-            onPressed: () {
-              var url = getIt<GetUrlAuthenticationUseCase>().execute();
-              navigateToSpotifyWebView(context, url);
-            },
-            child: const Text('Login with Spotify')),
+        child: Container(
+          margin: const EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                'assets/images/spotify_white.png',
+                width: double.infinity,
+              ),
+              const SizedBox(height: 50),
+              MaterialButton(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5)),
+                  padding: const EdgeInsets.all(15),
+                  color: Colors.green,
+                  onPressed: () {
+                    final url = getIt<GetUrlAuthenticationUseCase>().execute();
+                    navigateToSpotifyWebView(context, url);
+                  },
+                  child: const Text('Iniciar sesión con Spotify',
+                      style: TextStyle(color: Colors.white, fontSize: 18))),
+            ],
+          ),
+        ),
       ),
     );
   }

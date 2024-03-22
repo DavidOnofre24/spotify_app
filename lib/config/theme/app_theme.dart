@@ -5,9 +5,10 @@ class AppTheme {
         useMaterial3: true,
         colorScheme: ColorScheme.fromSwatch(
           primarySwatch: Colors.green,
-          accentColor: Colors.green,
-          brightness: Brightness.light,
-          backgroundColor: Colors.white,
+          primaryColorDark: Colors.green,
+          accentColor: Colors.greenAccent,
+          brightness: Brightness.dark,
+          backgroundColor: Colors.black.withOpacity(0.1),
         ),
       );
 }

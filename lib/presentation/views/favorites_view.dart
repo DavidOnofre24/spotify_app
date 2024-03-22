@@ -1,5 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:spotify_app/presentation/providers/favorite/cubit/favorite_cubit.dart';
 
 class FavoritesView extends StatefulWidget {
@@ -24,6 +26,24 @@ class _FavoritesViewState extends State<FavoritesView> {
             itemBuilder: (context, index) {
               final favoriteTrack = state.listFavoriteTracks[index];
               return ListTile(
+                onTap: () {
+                  context.go('/home/1/track-detail/${favoriteTrack.track.id}');
+                },
+                leading: (favoriteTrack.track.imageUrl != null)
+                    ? SizedBox(
+                        width: 50,
+                        height: 50,
+                        child: CachedNetworkImage(
+                          imageUrl: favoriteTrack.track.imageUrl!,
+                          placeholder: (context, url) =>
+                              const CircularProgressIndicator(),
+                          errorWidget: (context, url, error) => const Icon(
+                            Icons.error,
+                            color: Colors.red,
+                          ),
+                        ),
+                      )
+                    : const Icon(Icons.image),
                 title: Text(favoriteTrack.track.name ?? 'No name'),
                 subtitle: Text(favoriteTrack.track.artist ?? 'No artist'),
                 trailing: IconButton(
