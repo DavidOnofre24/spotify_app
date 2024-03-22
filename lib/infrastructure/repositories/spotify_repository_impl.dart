@@ -1,3 +1,5 @@
+import 'package:spotify_app/domain/entities/artist.dart';
+import 'package:spotify_app/domain/entities/album.dart';
 import 'package:spotify_app/domain/entities/search_item.dart';
 import 'package:spotify_app/domain/entities/track.dart';
 import 'package:spotify_app/domain/entities/user.dart';
@@ -46,13 +48,13 @@ class SpotifyRepositoryImpl implements SpotifyRepository {
     return spotifyDataSource.getRecommendations(tokenAccess, ids);
   }
 
-  // @override
-  // Future<Album?> getAlbumById(String tokenAccess, String id) {
-  //   return spotifyDataSource.getAlbumById(tokenAccess, id);
-  // }
+  @override
+  Future<AlbumEntity?> getAlbumById(String tokenAccess, String id) {
+    return spotifyDataSource.getAlbumById(tokenAccess, id);
+  }
 
-  // @override
-  // Future<Artist?> getArtistById(String tokenAccess, String id) {
-  //   return spotifyDataSource.getArtistById(tokenAccess, id);
-  // }
+  @override
+  Future<ArtistEntity?> getArtistById(String tokenAccess, String id) {
+    return spotifyDataSource.getArtistById(tokenAccess, id);
+  }
 }

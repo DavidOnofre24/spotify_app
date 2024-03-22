@@ -1,12 +1,16 @@
 import 'dart:convert';
+import 'package:spotify_app/domain/entities/artist.dart';
+import 'package:spotify_app/domain/entities/album.dart';
 import 'package:spotify_app/domain/entities/search_item.dart';
 import 'package:spotify_app/domain/entities/track.dart';
 import 'package:spotify_app/domain/entities/user.dart';
 import 'package:spotify_app/infrastructure/datasource/spotify_data_source.dart';
 import 'package:dio/dio.dart';
+import 'package:spotify_app/infrastructure/mappers/album_mapper.dart';
 import 'package:spotify_app/infrastructure/mappers/search_reponse_mapper.dart';
 import 'package:spotify_app/infrastructure/mappers/track_mapper.dart';
 import 'package:spotify_app/infrastructure/mappers/user_mapper.dart';
+import 'package:spotify_app/infrastructure/models/album_response.dart';
 import 'package:spotify_app/infrastructure/models/search_reponse.dart';
 import 'package:spotify_app/infrastructure/models/token_response.dart';
 import 'package:spotify_app/infrastructure/models/track_response.dart';
@@ -143,15 +147,25 @@ class RemoteSpotifyDataSource implements SpotifyDataSource {
     }
   }
 
-  // @override
-  // Future<Track?> getAlbumById(String tokenAccess, String id) {
-  //   // TODO: implement getAlbumById
-  //   throw UnimplementedError();
-  // }
+  @override
+  Future<AlbumEntity?> getAlbumById(String tokenAccess, String id) async {
+    final response = await dio.get('https://api.spotify.com/v1/albums/$id',
+        options: Options(
+          headers: {'Authorization': 'Bearer $tokenAccess'},
+        ));
 
-  // @override
-  // Future<Track?> getArtistById(String tokenAccess, String id) {
-  //   // TODO: implement getArtistById
-  //   throw UnimplementedError();
-  // }
+    if (response.statusCode == 200) {
+      final albumResponse = AlbumResponse.fromJson(response.data);
+      final album = AlbumMapper.albumResponseToEntity(albumResponse);
+      return album;
+    } else {
+      throw Exception('Failed to load album');
+    }
+  }
+
+  @override
+  Future<ArtistEntity?> getArtistById(String tokenAccess, String id) {
+    // TODO: implement getArtistById
+    throw UnimplementedError();
+  }
 }

@@ -1,3 +1,5 @@
+import 'package:spotify_app/domain/entities/album.dart';
+import 'package:spotify_app/domain/entities/artist.dart';
 import 'package:spotify_app/domain/entities/search_item.dart';
 import 'package:spotify_app/domain/entities/track.dart';
 import 'package:spotify_app/domain/entities/user.dart';
@@ -18,7 +20,7 @@ abstract class SpotifyRepository {
 
   Future<List<Track>> getRecommendations(String tokenAccess, List<String> ids);
 
-  // Future<Album?> getAlbumById(String tokenAccess, String id);
+  Future<AlbumEntity?> getAlbumById(String tokenAccess, String id);
 
-  // Future<Artist?> getArtistById(String tokenAccess, String id);
+  Future<ArtistEntity?> getArtistById(String tokenAccess, String id);
 }

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:spotify_app/presentation/providers/albums/cubit/album_detail_cubit.dart';
 
 class AlbumDetailScreen extends StatelessWidget {
   static const name = 'album-detail-screen';
@@ -7,11 +9,44 @@ class AlbumDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('album Detail'),
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(kToolbarHeight),
+          child: BlocBuilder<AlbumDetailCubit, AlbumDetailState>(
+            bloc: context.read<AlbumDetailCubit>(),
+            builder: (context, state) {
+              if (state is AlbumDetailSuccess) {
+                return AppBar(
+                  title: Text(state.album.name),
+                );
+              }
+              return AppBar();
+            },
+          ),
         ),
-        body: const Center(
-          child: Text('album Detail Screen'),
-        ));
+        body: BlocBuilder<AlbumDetailCubit, AlbumDetailState>(
+            bloc: context.read<AlbumDetailCubit>(),
+            builder: (context, state) {
+              if (state is AlbumDetailLoading) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+              if (state is AlbumDetailSuccess) {
+                return Column(
+                  children: [
+                    Image.network(
+                      state.album.imageUrl ?? '',
+                    ),
+                    Text(state.album.name),
+                    Text(state.album.artists?.first ?? ''),
+                    Text(state.album.releaseDate ?? ''),
+                    Text(state.album.totalTracks.toString()),
+                  ],
+                );
+              }
+              return const Center(
+                child: Text('Error'),
+              );
+            }));
   }
 }

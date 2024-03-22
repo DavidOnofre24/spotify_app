@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 class TrackResponse {
-  final AlbumResponse? album;
+  final Album? album;
   final List<Artist>? artists;
   final List<dynamic>? availableMarkets;
   final int? discNumber;
@@ -45,9 +45,7 @@ class TrackResponse {
   String toRawJson() => json.encode(toJson());
 
   factory TrackResponse.fromJson(Map<String, dynamic> json) => TrackResponse(
-        album: json["album"] == null
-            ? null
-            : AlbumResponse.fromJson(json["album"]),
+        album: json["album"] == null ? null : Album.fromJson(json["album"]),
         artists: json["artists"] == null
             ? []
             : List<Artist>.from(
@@ -99,7 +97,7 @@ class TrackResponse {
       };
 }
 
-class AlbumResponse {
+class Album {
   final String? albumType;
   final List<Artist>? artists;
   final List<dynamic>? availableMarkets;
@@ -114,7 +112,7 @@ class AlbumResponse {
   final String? type;
   final String? uri;
 
-  AlbumResponse({
+  Album({
     this.albumType,
     this.artists,
     this.availableMarkets,
@@ -130,10 +128,9 @@ class AlbumResponse {
     this.uri,
   });
 
-  factory AlbumResponse.fromRawJson(String str) =>
-      AlbumResponse.fromJson(json.decode(str));
+  factory Album.fromRawJson(String str) => Album.fromJson(json.decode(str));
 
-  factory AlbumResponse.fromJson(Map<String, dynamic> json) => AlbumResponse(
+  factory Album.fromJson(Map<String, dynamic> json) => Album(
         albumType: json["album_type"],
         artists: json["artists"] == null
             ? []
