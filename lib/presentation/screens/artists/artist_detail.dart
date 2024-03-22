@@ -37,8 +37,20 @@ class ArtistDetailScreen extends StatelessWidget {
                     Image.network(
                       state.artist.imageUrl ?? '',
                     ),
-                    Text(state.artist.name),
-                    Text(state.artist.genres?.first ?? ''),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Text(state.artist.name,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontSize: 23,
+                          fontWeight: FontWeight.bold,
+                        )),
+                    if (state.artist.genres?.isNotEmpty ?? false) ...[
+                      Text(state.artist.genres?.first ?? '',
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(fontSize: 18)),
+                    ],
                     Text(state.artist.popularity.toString()),
                   ],
                 );

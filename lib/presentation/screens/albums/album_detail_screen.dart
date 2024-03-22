@@ -37,10 +37,44 @@ class AlbumDetailScreen extends StatelessWidget {
                     Image.network(
                       state.album.imageUrl ?? '',
                     ),
-                    Text(state.album.name),
-                    Text(state.album.artists?.first ?? ''),
-                    Text(state.album.releaseDate ?? ''),
-                    Text(state.album.totalTracks.toString()),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Text(state.album.name,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontSize: 23,
+                          fontWeight: FontWeight.bold,
+                        )),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Text(state.album.artists?.toString() ?? '',
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(fontSize: 18)),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Text(state.album.releaseDate ?? '',
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(fontSize: 18)),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text('Canciones: ',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 18)),
+                        const Icon(Icons.music_note, size: 18),
+                        Text(
+                          state.album.totalTracks.toString(),
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(fontSize: 18),
+                        ),
+                      ],
+                    ),
                   ],
                 );
               }
