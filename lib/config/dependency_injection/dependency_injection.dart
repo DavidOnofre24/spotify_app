@@ -6,6 +6,7 @@ import 'package:spotify_app/domain/repositories/spotify_repository.dart';
 import 'package:spotify_app/domain/repositories/storage_repository.dart';
 import 'package:spotify_app/domain/use_cases/add_favorite_use_case.dart';
 import 'package:spotify_app/domain/use_cases/get_album_by_id_use_case.dart';
+import 'package:spotify_app/domain/use_cases/get_artist_by_id_use_case.dart';
 import 'package:spotify_app/domain/use_cases/get_favorites_tracks_use_case.dart';
 import 'package:spotify_app/domain/use_cases/get_is_favorite_use_case.dart';
 import 'package:spotify_app/domain/use_cases/get_recommendations_use_case.dart';
@@ -137,6 +138,13 @@ configureUseCases() {
 
   getIt.registerSingleton<GetAlbumByIdUseCase>(
     GetAlbumByIdUseCase(
+      getIt<SpotifyRepository>(),
+      getIt<GetTokenUserUseCase>(),
+    ),
+  );
+
+  getIt.registerSingleton<GetArtistByIdUseCase>(
+    GetArtistByIdUseCase(
       getIt<SpotifyRepository>(),
       getIt<GetTokenUserUseCase>(),
     ),

@@ -7,10 +7,12 @@ import 'package:spotify_app/domain/entities/user.dart';
 import 'package:spotify_app/infrastructure/datasource/spotify_data_source.dart';
 import 'package:dio/dio.dart';
 import 'package:spotify_app/infrastructure/mappers/album_mapper.dart';
+import 'package:spotify_app/infrastructure/mappers/artist_mapper.dart';
 import 'package:spotify_app/infrastructure/mappers/search_reponse_mapper.dart';
 import 'package:spotify_app/infrastructure/mappers/track_mapper.dart';
 import 'package:spotify_app/infrastructure/mappers/user_mapper.dart';
 import 'package:spotify_app/infrastructure/models/album_response.dart';
+import 'package:spotify_app/infrastructure/models/artist_reponse.dart';
 import 'package:spotify_app/infrastructure/models/search_reponse.dart';
 import 'package:spotify_app/infrastructure/models/token_response.dart';
 import 'package:spotify_app/infrastructure/models/track_response.dart';
@@ -164,8 +166,18 @@ class RemoteSpotifyDataSource implements SpotifyDataSource {
   }
 
   @override
-  Future<ArtistEntity?> getArtistById(String tokenAccess, String id) {
-    // TODO: implement getArtistById
-    throw UnimplementedError();
+  Future<ArtistEntity?> getArtistById(String tokenAccess, String id) async {
+    final response = await dio.get('https://api.spotify.com/v1/artists/$id',
+        options: Options(
+          headers: {'Authorization': 'Bearer $tokenAccess'},
+        ));
+
+    if (response.statusCode == 200) {
+      final artistResponse = ArtistResponse.fromJson(response.data);
+      final artist = ArtistMapper.artistResponseToEntity(artistResponse);
+      return artist;
+    } else {
+      throw Exception('Failed to load artist');
+    }
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:spotify_app/config/dependency_injection/dependency_injection.dart';
 import 'package:spotify_app/presentation/providers/albums/cubit/album_detail_cubit.dart';
+import 'package:spotify_app/presentation/providers/artists/cubit/artist_detail_cubit.dart';
 import 'package:spotify_app/presentation/providers/favorite/cubit/favorite_cubit.dart';
 import 'package:spotify_app/presentation/providers/home/cubit/home_cubit.dart';
 import 'package:spotify_app/presentation/providers/tracks/cubit/track_detail_cubit.dart';
@@ -53,7 +54,12 @@ final appRouter = GoRouter(
           GoRoute(
             path: 'artist-detail/:id',
             name: ArtistDetailScreen.name,
-            builder: (context, state) => const ArtistDetailScreen(),
+            builder: (context, state) => BlocProvider<ArtistDetailCubit>(
+              create: (context) => ArtistDetailCubit(
+                getArtistByIdUseCase: getIt.get(),
+              )..getArtistById(state.params['id']!),
+              child: const ArtistDetailScreen(),
+            ),
           ),
           GoRoute(
             path: 'track-detail/:id',

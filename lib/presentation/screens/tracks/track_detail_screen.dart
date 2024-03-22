@@ -71,9 +71,13 @@ class _TrackDetailScreenState extends State<TrackDetailScreen> {
                             width: double.infinity),
                         const SizedBox(height: 20),
                         Text(state.track.name!,
+                            textAlign: TextAlign.center,
                             style: const TextStyle(
-                                fontSize: 24, fontWeight: FontWeight.bold)),
+                              fontSize: 23,
+                              fontWeight: FontWeight.bold,
+                            )),
                         Text(state.track.artist ?? '',
+                            textAlign: TextAlign.center,
                             style: const TextStyle(fontSize: 18)),
                         const SizedBox(height: 20),
                         if (state.track.previewUrl != null)
