@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:spotify_app/config/dependency_injection/dependency_injection.dart';
 import 'package:spotify_app/presentation/providers/favorite/cubit/favorite_cubit.dart';
+import 'package:spotify_app/presentation/providers/home/cubit/home_cubit.dart';
 import 'package:spotify_app/presentation/providers/tracks/cubit/track_detail_cubit.dart';
 import 'package:spotify_app/presentation/screens/albums/album_detail_screen.dart';
 import 'package:spotify_app/presentation/screens/screens.dart';
@@ -35,6 +36,12 @@ final appRouter = GoRouter(
                     getFavoritesTracksUseCase: getIt.get(),
                     removeFavoriteUseCase: getIt.get(),
                   ),
+                ),
+                BlocProvider<HomeCubit>(
+                  create: (context) => HomeCubit(
+                    getFavoritesTracksUseCase: getIt.get(),
+                    getRecommendationsUseCase: getIt.get(),
+                  )..getRecommendations(),
                 )
               ],
               child: HomeScreen(

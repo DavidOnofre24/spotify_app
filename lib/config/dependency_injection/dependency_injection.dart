@@ -7,6 +7,7 @@ import 'package:spotify_app/domain/repositories/storage_repository.dart';
 import 'package:spotify_app/domain/use_cases/add_favorite_use_case.dart';
 import 'package:spotify_app/domain/use_cases/get_favorites_tracks_use_case.dart';
 import 'package:spotify_app/domain/use_cases/get_is_favorite_use_case.dart';
+import 'package:spotify_app/domain/use_cases/get_recommendations_use_case.dart';
 import 'package:spotify_app/domain/use_cases/get_search_items_use_case.dart';
 import 'package:spotify_app/domain/use_cases/get_token_use_case.dart';
 import 'package:spotify_app/domain/use_cases/get_token_user_use_case.dart';
@@ -122,6 +123,13 @@ configureUseCases() {
   getIt.registerSingleton<GetIsFavoriteUseCase>(
     GetIsFavoriteUseCase(
       getIt<FavoriteRepository>(),
+      getIt<GetTokenUserUseCase>(),
+    ),
+  );
+
+  getIt.registerSingleton<GetRecommendationsUseCase>(
+    GetRecommendationsUseCase(
+      getIt<SpotifyRepository>(),
       getIt<GetTokenUserUseCase>(),
     ),
   );

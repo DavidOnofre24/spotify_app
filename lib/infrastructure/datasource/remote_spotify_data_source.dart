@@ -118,6 +118,31 @@ class RemoteSpotifyDataSource implements SpotifyDataSource {
     }
   }
 
+  @override
+  Future<List<Track>> getRecommendations(
+      String tokenAccess, List<String> ids) async {
+    final idsString = ids.join(',');
+    final response = await dio.get(
+      'https://api.spotify.com/v1/recommendations?seed_tracks=$idsString',
+      options: Options(
+        headers: {'Authorization': 'Bearer $tokenAccess'},
+      ),
+    );
+
+    if (response.statusCode == 200) {
+      final data = response.data;
+
+      final tracks = (data['tracks'] as List)
+          .map((e) =>
+              TrackMapper.trackResponseToEntity(TrackResponse.fromJson(e)))
+          .toList();
+
+      return tracks;
+    } else {
+      throw Exception('Failed to load recommendations');
+    }
+  }
+
   // @override
   // Future<Track?> getAlbumById(String tokenAccess, String id) {
   //   // TODO: implement getAlbumById

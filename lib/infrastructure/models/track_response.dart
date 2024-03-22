@@ -76,7 +76,6 @@ class TrackResponse {
       );
 
   Map<String, dynamic> toJson() => {
-        "album": album?.toJson(),
         "artists": artists == null
             ? []
             : List<dynamic>.from(artists!.map((x) => x.toJson())),
@@ -109,7 +108,7 @@ class AlbumResponse {
   final String? id;
   final List<Image>? images;
   final String? name;
-  final DateTime? releaseDate;
+  final String? releaseDate;
   final String? releaseDatePrecision;
   final int? totalTracks;
   final String? type;
@@ -134,8 +133,6 @@ class AlbumResponse {
   factory AlbumResponse.fromRawJson(String str) =>
       AlbumResponse.fromJson(json.decode(str));
 
-  String toRawJson() => json.encode(toJson());
-
   factory AlbumResponse.fromJson(Map<String, dynamic> json) => AlbumResponse(
         albumType: json["album_type"],
         artists: json["artists"] == null
@@ -154,37 +151,12 @@ class AlbumResponse {
             ? []
             : List<Image>.from(json["images"]!.map((x) => Image.fromJson(x))),
         name: json["name"],
-        releaseDate: json["release_date"] == null
-            ? null
-            : DateTime.parse(json["release_date"]),
+        releaseDate: json["release_date"],
         releaseDatePrecision: json["release_date_precision"],
         totalTracks: json["total_tracks"],
         type: json["type"],
         uri: json["uri"],
       );
-
-  Map<String, dynamic> toJson() => {
-        "album_type": albumType,
-        "artists": artists == null
-            ? []
-            : List<dynamic>.from(artists!.map((x) => x.toJson())),
-        "available_markets": availableMarkets == null
-            ? []
-            : List<dynamic>.from(availableMarkets!.map((x) => x)),
-        "external_urls": externalUrls?.toJson(),
-        "href": href,
-        "id": id,
-        "images": images == null
-            ? []
-            : List<dynamic>.from(images!.map((x) => x.toJson())),
-        "name": name,
-        "release_date":
-            "${releaseDate!.year.toString().padLeft(4, '0')}-${releaseDate!.month.toString().padLeft(2, '0')}-${releaseDate!.day.toString().padLeft(2, '0')}",
-        "release_date_precision": releaseDatePrecision,
-        "total_tracks": totalTracks,
-        "type": type,
-        "uri": uri,
-      };
 }
 
 class Artist {

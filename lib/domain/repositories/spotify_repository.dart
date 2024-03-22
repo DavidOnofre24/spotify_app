@@ -16,6 +16,8 @@ abstract class SpotifyRepository {
 
   Future<Track?> getTrackById(String tokenAccess, String id);
 
+  Future<List<Track>> getRecommendations(String tokenAccess, List<String> ids);
+
   // Future<Album?> getAlbumById(String tokenAccess, String id);
 
   // Future<Artist?> getArtistById(String tokenAccess, String id);

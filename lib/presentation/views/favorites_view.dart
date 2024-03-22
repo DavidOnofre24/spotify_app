@@ -43,7 +43,7 @@ class _FavoritesViewState extends State<FavoritesView> {
                 onPressed: () {
                   context.read<FavoriteCubit>().getFavorites();
                 },
-                child: const Text('Try again')),
+                child: const Text('Intente de nuevo')),
           );
         }
       },

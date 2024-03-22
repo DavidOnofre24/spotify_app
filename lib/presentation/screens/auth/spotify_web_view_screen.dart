@@ -22,13 +22,15 @@ class _SpotifyWebViewScreenState extends State<SpotifyWebViewScreen> {
         title: const Text('Autorización de Spotify'),
       ),
       body: WebView(
-        navigationDelegate: (navigation) {
+        navigationDelegate: (navigation) async {
           if (navigation.url.startsWith('pruebacastor://callback')) {
             if (navigation.url.contains('code=')) {
               final uri = Uri.parse(navigation.url);
               final code = uri.queryParameters['code'];
-              getIt<GetTokenUseCase>().execute(code!);
-              context.go('/home/0');
+              await getIt<GetTokenUseCase>().execute(code!);
+              Future.delayed(const Duration(seconds: 2), () {
+                context.go('/home/0');
+              });
             }
 
             return NavigationDecision.prevent;

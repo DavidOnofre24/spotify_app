@@ -41,6 +41,11 @@ class SpotifyRepositoryImpl implements SpotifyRepository {
     return spotifyDataSource.getTrackById(tokenAccess, id);
   }
 
+  @override
+  Future<List<Track>> getRecommendations(String tokenAccess, List<String> ids) {
+    return spotifyDataSource.getRecommendations(tokenAccess, ids);
+  }
+
   // @override
   // Future<Album?> getAlbumById(String tokenAccess, String id) {
   //   return spotifyDataSource.getAlbumById(tokenAccess, id);
