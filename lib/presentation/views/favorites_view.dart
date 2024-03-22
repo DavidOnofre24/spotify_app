@@ -20,52 +20,64 @@ class _FavoritesViewState extends State<FavoritesView> {
           return const Center(
             child: CircularProgressIndicator(),
           );
-        } else if (state is FavoriteSuccess) {
-          return ListView.builder(
-            itemCount: state.listFavoriteTracks.length,
-            itemBuilder: (context, index) {
-              final favoriteTrack = state.listFavoriteTracks[index];
-              return ListTile(
-                onTap: () {
-                  context.go('/home/1/track-detail/${favoriteTrack.track.id}');
-                },
-                leading: (favoriteTrack.track.imageUrl != null)
-                    ? SizedBox(
-                        width: 50,
-                        height: 50,
-                        child: CachedNetworkImage(
-                          imageUrl: favoriteTrack.track.imageUrl!,
-                          placeholder: (context, url) =>
-                              const CircularProgressIndicator(),
-                          errorWidget: (context, url, error) => const Icon(
-                            Icons.error,
-                            color: Colors.red,
-                          ),
-                        ),
-                      )
-                    : const Icon(Icons.image),
-                title: Text(favoriteTrack.track.name ?? 'No name'),
-                subtitle: Text(favoriteTrack.track.artist ?? 'No artist'),
-                trailing: IconButton(
-                  icon: const Icon(Icons.delete),
-                  onPressed: () {
-                    context
-                        .read<FavoriteCubit>()
-                        .removeFavorite(favoriteTrack.track.id!);
-                  },
-                ),
-              );
-            },
-          );
-        } else {
-          return Center(
-            child: TextButton(
-                onPressed: () {
-                  context.read<FavoriteCubit>().getFavorites();
-                },
-                child: const Text('Intente de nuevo')),
-          );
         }
+        if (state is FavoriteSuccess) {
+          return _FavoriteListWidget(state: state);
+        }
+        return Center(
+          child: TextButton(
+              onPressed: () {
+                context.read<FavoriteCubit>().getFavorites();
+              },
+              child: const Text('Intente de nuevo')),
+        );
+      },
+    );
+  }
+}
+
+class _FavoriteListWidget extends StatelessWidget {
+  final FavoriteSuccess state;
+  const _FavoriteListWidget({
+    required this.state,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemCount: state.listFavoriteTracks.length,
+      itemBuilder: (context, index) {
+        final favoriteTrack = state.listFavoriteTracks[index];
+        return ListTile(
+          onTap: () {
+            context.go('/home/1/track-detail/${favoriteTrack.track.id}');
+          },
+          leading: (favoriteTrack.track.imageUrl != null)
+              ? SizedBox(
+                  width: 50,
+                  height: 50,
+                  child: CachedNetworkImage(
+                    imageUrl: favoriteTrack.track.imageUrl!,
+                    placeholder: (context, url) =>
+                        const CircularProgressIndicator(),
+                    errorWidget: (context, url, error) => const Icon(
+                      Icons.error,
+                      color: Colors.red,
+                    ),
+                  ),
+                )
+              : const Icon(Icons.image),
+          title: Text(favoriteTrack.track.name ?? 'No name'),
+          subtitle: Text(favoriteTrack.track.artist ?? 'No artist'),
+          trailing: IconButton(
+            icon: const Icon(Icons.delete),
+            onPressed: () {
+              context
+                  .read<FavoriteCubit>()
+                  .removeFavorite(favoriteTrack.track.id!);
+            },
+          ),
+        );
       },
     );
   }

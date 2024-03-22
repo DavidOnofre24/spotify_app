@@ -31,31 +31,12 @@ class SearchSpotifyDelegate extends SearchDelegate<String?> {
 
         return ListView.builder(
             itemCount: items.length,
-            itemBuilder: (context, index) => ListTile(
-                  leading: (items[index]?.imageUrl != null)
-                      ? SizedBox(
-                          width: 50,
-                          height: 50,
-                          child: CachedNetworkImage(
-                            imageUrl: items[index]!.imageUrl!,
-                            fit: BoxFit.cover,
-                            placeholder: (context, url) => const SizedBox(
-                                height: 5,
-                                width: 5,
-                                child: CircularProgressIndicator()),
-                            errorWidget: (context, url, error) => const Icon(
-                              Icons.error,
-                              color: Colors.red,
-                            ),
-                          ),
-                        )
-                      : const Icon(Icons.image),
+            itemBuilder: (context, index) => ItemListile(
+                  item: items[index]!,
                   onTap: () {
                     clearStreams();
                     close(context, '${items[index]!.id}-${items[index]!.type}');
                   },
-                  title: Text(items[index]!.name),
-                  subtitle: Text(items[index]!.type),
                 ));
       },
     );
@@ -107,5 +88,37 @@ class SearchSpotifyDelegate extends SearchDelegate<String?> {
       debounceItems.add(searchItems);
       isLoadingStream.add(false);
     });
+  }
+}
+
+class ItemListile extends StatelessWidget {
+  final SearchResultItem item;
+  final void Function()? onTap;
+
+  const ItemListile({super.key, required this.item, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: (item.imageUrl != null)
+          ? SizedBox(
+              width: 50,
+              height: 50,
+              child: CachedNetworkImage(
+                imageUrl: item.imageUrl!,
+                fit: BoxFit.cover,
+                placeholder: (context, url) => const SizedBox(
+                    height: 5, width: 5, child: CircularProgressIndicator()),
+                errorWidget: (context, url, error) => const Icon(
+                  Icons.error,
+                  color: Colors.red,
+                ),
+              ),
+            )
+          : const Icon(Icons.image),
+      onTap: onTap,
+      title: Text(item.name),
+      subtitle: Text(item.type),
+    );
   }
 }
