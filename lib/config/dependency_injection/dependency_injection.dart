@@ -1,11 +1,14 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_it/get_it.dart';
 import 'package:spotify_app/domain/repositories/favorites_repository.dart';
+import 'package:spotify_app/domain/repositories/login_repository.dart';
 import 'package:spotify_app/domain/repositories/spotify_repository.dart';
 import 'package:spotify_app/domain/repositories/storage_repository.dart';
 import 'package:spotify_app/domain/use_cases/add_favorite_use_case.dart';
 import 'package:spotify_app/domain/use_cases/get_album_by_id_use_case.dart';
+import 'package:spotify_app/domain/use_cases/get_android_token_use_case.dart';
 import 'package:spotify_app/domain/use_cases/get_artist_by_id_use_case.dart';
 import 'package:spotify_app/domain/use_cases/get_favorites_tracks_use_case.dart';
 import 'package:spotify_app/domain/use_cases/get_is_favorite_use_case.dart';
@@ -17,12 +20,15 @@ import 'package:spotify_app/domain/use_cases/get_track_by_id_use_case.dart';
 import 'package:spotify_app/domain/use_cases/get_url_authentication_use_case.dart';
 import 'package:spotify_app/domain/use_cases/get_user_use_case.dart';
 import 'package:spotify_app/domain/use_cases/remove_favorite_use_case.dart';
+import 'package:spotify_app/infrastructure/datasource/android_login_data_source.dart';
 import 'package:spotify_app/infrastructure/datasource/favorites_data_source.dart';
+import 'package:spotify_app/infrastructure/datasource/login_data_source.dart';
 import 'package:spotify_app/infrastructure/datasource/remote_favorites_data_source.dart';
 import 'package:spotify_app/infrastructure/datasource/remote_spotify_data_source.dart';
 import 'package:spotify_app/infrastructure/datasource/secure_storage_data_source.dart';
 import 'package:spotify_app/infrastructure/datasource/spotify_data_source.dart';
 import 'package:spotify_app/infrastructure/repositories/favorites_repository_impl.dart';
+import 'package:spotify_app/infrastructure/repositories/login_repository_impl.dart';
 import 'package:spotify_app/infrastructure/repositories/spotify_repository_impl.dart';
 import 'package:spotify_app/infrastructure/repositories/storage_repository_impl.dart';
 
@@ -41,6 +47,12 @@ configureDatasources() {
   getIt.registerSingleton<FavoritesDataSource>(
     RemoteFavoritesDataSource(
       dio: getIt<Dio>(),
+    ),
+  );
+
+  getIt.registerSingleton<LoginDataSource>(
+    AndroidLoginDataSource(
+      const FlutterAppAuth(),
     ),
   );
 
@@ -69,6 +81,13 @@ configureRepositories() {
   getIt.registerSingleton<FavoriteRepository>(FavoritesRepositoryImpl(
     favoritesDataSource: getIt<FavoritesDataSource>(),
   ));
+
+  getIt.registerSingleton<LoginRepository>(
+    LoginRepositoryImpl(
+      getIt<LoginDataSource>(),
+      getIt<SecureStorageDataSource>(),
+    ),
+  );
 }
 
 configureUseCases() {
@@ -147,6 +166,12 @@ configureUseCases() {
     GetArtistByIdUseCase(
       getIt<SpotifyRepository>(),
       getIt<GetTokenUserUseCase>(),
+    ),
+  );
+
+  getIt.registerSingleton<GetAndroidTokenUseCase>(
+    GetAndroidTokenUseCase(
+      getIt<LoginRepository>(),
     ),
   );
 }

@@ -14,6 +14,7 @@ class HomeView extends StatelessWidget {
       SliverAppBar(
         floating: true,
         flexibleSpace: FlexibleSpaceBar(
+          centerTitle: true,
           title: CustomAppBar(),
         ),
       ),
